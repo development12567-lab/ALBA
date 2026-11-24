@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ITSDEVALBA | Official Website</title>
+<title>ITSDEVALBA.CFX | Official Website</title>
 <style>
 :root{
   --bg:#08080c;--text:#fff;--muted:#999;--soft:#aaa;--nav:#bbb;
@@ -42,7 +42,7 @@ nav a:hover,nav a.active{color:var(--accent2);border-color:var(--accent)}
 #theme:hover{border-color:var(--accent)}
 .hero{min-height:78vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 20px}
 .tag{color:var(--accent2);border:1px solid var(--accent);padding:9px 18px;border-radius:30px;font-size:12px;letter-spacing:3px}
-h1{font-size:clamp(48px,10vw,105px);font-weight:900;letter-spacing:-5px;margin:30px 0 15px}
+h1{font-size:clamp(30px,8vw,96px);font-weight:900;letter-spacing:-4px;margin:30px 0 15px;max-width:100%}
 h1 span{background:linear-gradient(90deg,var(--text),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{color:var(--muted);font-size:17px;line-height:1.8}
 .typed{color:var(--accent2);font-weight:bold;font-size:20px;min-height:32px;margin-top:14px}
@@ -63,6 +63,7 @@ section p{color:var(--soft);line-height:1.8}
 .grid h3{margin-bottom:8px;font-size:18px}
 .reveal{opacity:0;transform:translateY(34px);transition:opacity .8s,transform .8s}
 .reveal.in{opacity:1;transform:none}
+.reveal.done{transition:transform .15s,border-color .3s;transition-delay:0s!important}
 #top{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));width:46px;height:46px;border-radius:50%;border:0;
   background:var(--accent);color:var(--on-accent);font-size:20px;cursor:pointer;opacity:0;pointer-events:none;transition:.3s;z-index:55}
 #top.show{opacity:1;pointer-events:auto}
@@ -77,8 +78,10 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
  nav a{margin:0 8px}
  #theme{margin-left:8px}
  h1{letter-spacing:-2px}
+ .logo{font-size:20px;letter-spacing:2px}
  section{padding:65px 7%}
  .btn.ghost{margin:12px 0 0}
+ html{scroll-padding-top:calc(125px + env(safe-area-inset-top,0px))}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
@@ -89,7 +92,7 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
 <div id="progress"></div>
 
 <header>
-  <div class="logo">ITSDEV<span>ALBA.</span></div>
+  <div class="logo">ITSDEV<span>ALBA.CFX</span></div>
   <div class="right">
     <nav>
       <a href="#home" class="active">Home</a>
@@ -103,46 +106,46 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
 
 <main>
 <div class="hero" id="home">
-  <div class="tag">WELCOME TO MY WORLD</div>
-  <h1>ITSDEV<span>ALBA.</span></h1>
-  <p>Welcome to the official website of ITSDEVALBA.</p>
+  <div class="tag">WELKOM IN MIJN WERELD</div>
+  <h1>ITSDEV<span>ALBA.CFX</span></h1>
+  <p>Welkom op de officiële website van ITSDEVALBA.CFX<br>FiveM developer &amp; creator.</p>
   <div class="typed" id="typed"></div>
   <div>
-    <a class="btn" href="#about">DISCOVER MORE ↗</a>
-    <a class="btn ghost" href="#contact">SAY HI</a>
+    <a class="btn" href="#about">ONTDEK MEER ↗</a>
+    <a class="btn ghost" href="#contact">STUUR EEN BERICHT</a>
   </div>
 </div>
 
 <section id="about">
-  <h2 class="reveal">About Me.</h2>
+  <h2 class="reveal">Over Mij.</h2>
   <div class="card reveal">
-    <p>Welcome to ITSDEVALBA. This is my official online space.
-    A place for creativity, ideas, projects and everything
-    that represents my vision.</p>
+    <p>Welkom bij ITSDEVALBA.CFX. Dit is mijn officiële online plek.
+    Ik ben FiveM developer en bouw scripts, ideeën en projecten
+    die mijn visie laten zien.</p>
   </div>
 </section>
 
 <section id="projects">
-  <h2 class="reveal">My Projects.</h2>
-  <p class="reveal">Something new is coming soon. Stay tuned for updates.</p>
+  <h2 class="reveal">Mijn Projecten.</h2>
+  <p class="reveal">Er komt binnenkort iets nieuws. Houd deze pagina in de gaten.</p>
   <div class="grid">
-    <div class="card tilt reveal"><div class="ico">🚀</div><h3>Project One</h3><p>Coming soon</p></div>
-    <div class="card tilt reveal"><div class="ico">🎨</div><h3>Project Two</h3><p>Coming soon</p></div>
-    <div class="card tilt reveal"><div class="ico">⚡</div><h3>Project Three</h3><p>Coming soon</p></div>
+    <div class="card tilt reveal"><div class="ico">🚀</div><h3>FiveM Scripts</h3><p>Binnenkort</p></div>
+    <div class="card tilt reveal"><div class="ico">🎨</div><h3>Mods &amp; Maps</h3><p>Binnenkort</p></div>
+    <div class="card tilt reveal"><div class="ico">⚡</div><h3>Discord Bots</h3><p>Binnenkort</p></div>
   </div>
 </section>
 
 <section id="contact">
-  <h2 class="reveal">Get In Touch.</h2>
-  <p class="reveal">Want to connect or collaborate?</p>
+  <h2 class="reveal">Neem Contact Op.</h2>
+  <p class="reveal">Wil je contact opnemen of samenwerken?</p>
   <div class="reveal">
-    <a class="btn" href="mailto:contact@example.com">CONTACT ME ↗</a>
-    <button class="btn ghost" id="copy">COPY E-MAIL</button>
+    <a class="btn" href="mailto:contact@example.com">CONTACT ↗</a>
+    <button class="btn ghost" id="copy">KOPIEER E-MAIL</button>
   </div>
 </section>
 </main>
 
-<footer>© 2026 ITSDEVALBA. All rights reserved.</footer>
+<footer>© 2026 ITSDEVALBA.CFX. Alle rechten voorbehouden.</footer>
 
 <button id="top" aria-label="Terug naar boven">↑</button>
 <div id="toast"></div>
@@ -162,7 +165,7 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
   };
 
   /* Typemachine */
-  var words=['Creativity.','Ambition.','Vision.','Ideas.','Something new.'];
+  var words=['Creativiteit.','Ambitie.','Visie.','FiveM scripts.','Iets nieuws.'];
   var el=document.getElementById('typed'),w=0,c=0,del=false;
   function type(){
     var cur=words[w];
@@ -173,6 +176,8 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
     else{del=false;w=(w+1)%words.length;setTimeout(type,300);}
   }
   type();
+
+  setTimeout(function(){say('Welkom! Leuk dat je er bent 👋');},1200);
 
   /* Deeltjes-achtergrond */
   var cv=document.getElementById('bg'),ctx=cv.getContext('2d'),P=[],mx=-999,my=-999,W,H;
@@ -189,7 +194,7 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
       var p=P[i];p.x+=p.vx;p.y+=p.vy;
       if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
       var dx=p.x-mx,dy=p.y-my,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<120){p.x+=dx/d*1.5;p.y+=dy/d*1.5;}
+      if(d<120&&d>0){p.x+=dx/d*1.5;p.y+=dy/d*1.5;}
       ctx.fillStyle='rgba('+rgb+',.7)';ctx.beginPath();ctx.arc(p.x,p.y,1.8,0,6.3);ctx.fill();
       for(var j=i+1;j<P.length;j++){
         var q=P[j],ax=p.x-q.x,ay=p.y-q.y,dd=Math.sqrt(ax*ax+ay*ay);
@@ -201,7 +206,7 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
   draw();
 
   /* Scroll-reveal */
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.15});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var t=e.target;t.classList.add('in');io.unobserve(t);setTimeout(function(){t.classList.add('done');},1200);}});},{threshold:.15});
   document.querySelectorAll('.reveal').forEach(function(n,i){n.style.transitionDelay=(i%3)*.1+'s';io.observe(n);});
 
   /* Voortgangsbalk, naar-boven-knop, actieve menu-link */
@@ -211,7 +216,7 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
     var h=document.documentElement.scrollHeight-innerHeight,y=scrollY;
     bar.style.width=(h>0?y/h*100:0)+'%';
     top.classList.toggle('show',y>500);
-    var idx=0;secs.forEach(function(s,i){if(s.getBoundingClientRect().top<innerHeight*.4)idx=i;});
+    var idx=0;secs.forEach(function(s,i){if(s.getBoundingClientRect().top<innerHeight*.4)idx=i;});if(y+innerHeight>=document.documentElement.scrollHeight-4)idx=secs.length-1;
     links.forEach(function(a,i){a.classList.toggle('active',i===idx);});
   }
   addEventListener('scroll',onScroll,{passive:true});onScroll();
