@@ -61,6 +61,12 @@ section p{color:var(--soft);line-height:1.8}
 .grid .card{margin:0;padding:28px 20px;transform-style:preserve-3d}
 .grid .ico{font-size:34px;margin-bottom:12px}
 .grid h3{margin-bottom:8px;font-size:18px}
+.discord{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;max-width:420px;margin:30px auto 0;padding:18px 22px;
+  background:var(--card);border:1px solid var(--accent);border-radius:14px;cursor:pointer;color:var(--text);font:inherit;width:100%;transition:transform .2s,box-shadow .2s}
+.discord:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(var(--particle),.4)}
+.discord .dico{font-size:26px}
+.discord small{display:block;color:var(--muted);font-size:12px;letter-spacing:2px;text-align:left}
+.discord b{display:block;color:var(--accent2);font-size:20px;text-align:left}
 .reveal{opacity:0;transform:translateY(34px);transition:opacity .8s,transform .8s}
 .reveal.in{opacity:1;transform:none}
 .reveal.done{transition:transform .15s,border-color .3s;transition-delay:0s!important}
@@ -112,7 +118,7 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
   <div class="typed" id="typed"></div>
   <div>
     <a class="btn" href="#about">ONTDEK MEER ↗</a>
-    <a class="btn ghost" href="#contact">STUUR EEN BERICHT</a>
+    <a class="btn ghost" href="#contact">VOEG ME TOE OP DISCORD</a>
   </div>
 </div>
 
@@ -129,18 +135,22 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
   <h2 class="reveal">Mijn Projecten.</h2>
   <p class="reveal">Er komt binnenkort iets nieuws. Houd deze pagina in de gaten.</p>
   <div class="grid">
-    <div class="card tilt reveal"><div class="ico">🚀</div><h3>FiveM Scripts</h3><p>Binnenkort</p></div>
-    <div class="card tilt reveal"><div class="ico">🎨</div><h3>Mods &amp; Maps</h3><p>Binnenkort</p></div>
-    <div class="card tilt reveal"><div class="ico">⚡</div><h3>Discord Bots</h3><p>Binnenkort</p></div>
+    <div class="card tilt reveal"><div class="ico">🚀</div><h3>FiveM Scripts</h3></div>
+    <div class="card tilt reveal"><div class="ico">🎨</div><h3>Mods &amp; Maps</h3></div>
+    <div class="card tilt reveal"><div class="ico">⚡</div><h3>Discord Bots</h3></div>
+    <div class="card tilt reveal"><div class="ico">🌐</div><h3>FiveM Website Maker</h3></div>
   </div>
 </section>
 
 <section id="contact">
-  <h2 class="reveal">Neem Contact Op.</h2>
-  <p class="reveal">Wil je contact opnemen of samenwerken?</p>
+  <h2 class="reveal">Voeg Me Toe Op Discord.</h2>
+  <p class="reveal">Wil je contact opnemen of samenwerken? Stuur me een vriendschapsverzoek op Discord.</p>
   <div class="reveal">
-    <a class="btn" href="mailto:contact@example.com">CONTACT ↗</a>
-    <button class="btn ghost" id="copy">KOPIEER E-MAIL</button>
+    <button class="discord" id="discord" aria-label="Kopieer Discord-gebruikersnaam">
+      <span class="dico">💬</span>
+      <span><small>DISCORD</small><b>itsdevalba.cfx</b></span>
+      <span class="btn" style="margin:0;padding:10px 18px;font-size:13px">KOPIEER</span>
+    </button>
   </div>
 </section>
 </main>
@@ -230,13 +240,13 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
     c.addEventListener('mouseleave',function(){c.style.transform='';});
   });
 
-  /* E-mail kopiëren + toast */
+  /* Discord-gebruikersnaam kopiëren + toast */
   var toast=document.getElementById('toast');
   function say(m){toast.textContent=m;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show');},2200);}
-  document.getElementById('copy').onclick=function(){
-    var mail='contact@example.com';
-    try{navigator.clipboard.writeText(mail).then(function(){say('E-mailadres gekopieerd ✓');},function(){say(mail);});}
-    catch(e){say(mail);}
+  document.getElementById('discord').onclick=function(){
+    var tag='itsdevalba.cfx';
+    try{navigator.clipboard.writeText(tag).then(function(){say('Discord gekopieerd: '+tag+' ✓');},function(){say('Discord: '+tag);});}
+    catch(e){say('Discord: '+tag);}
   };
 
   /* Sparkles bij klikken */
