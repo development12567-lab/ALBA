@@ -1,102 +1,121 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ITSDEVALBA | Official Website</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  background:#08080c;
-  color:white;
-  font-family:Arial,sans-serif;
+:root{
+  --bg:#08080c;--text:#fff;--muted:#999;--soft:#aaa;--nav:#bbb;
+  --card:#121219;--line:#24242c;--line2:#292933;--accent:#a66cff;--accent2:#b88aff;--on-accent:#08080c;
+  --head:rgba(8,8,12,.85);--particle:166,108,255;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark}}
+:root[data-theme="dark"]{color-scheme:dark}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f6f3fc;--text:#14121c;--muted:#5d5870;--soft:#4b465c;--nav:#4b465c;
+  --card:#fff;--line:#ddd6ee;--line2:#ddd6ee;--accent:#7a3fe0;--accent2:#6a2fd0;--on-accent:#fff;
+  --head:rgba(246,243,252,.88);--particle:122,63,224;
+}
+html{scroll-behavior:smooth;scroll-padding-top:calc(90px + env(safe-area-inset-top,0px))}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:Arial,sans-serif;transition:background .3s,color .3s;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--head);z-index:60}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#glow{position:fixed;width:340px;height:340px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(var(--particle),.16),transparent 65%);transform:translate(-50%,-50%);left:-400px;top:-400px}
+#progress{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:70}
+header,main,footer{position:relative;z-index:1}
 header{
-  padding:25px 8%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:1px solid #24242c;
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:50;
+  padding:18px 8%;display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--line);background:var(--head);backdrop-filter:blur(12px);
 }
 .logo{font-size:23px;font-weight:900;letter-spacing:3px}
-.logo span{color:#a66cff}
-nav a{
-  color:#bbb;text-decoration:none;
-  margin-left:25px;font-size:14px;
-}
-nav a:hover{color:#b88aff}
-.hero{
-  min-height:78vh;
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-  text-align:center;padding:40px 20px;
-}
-.tag{
-  color:#b88aff;border:1px solid #7044a5;
-  padding:9px 18px;border-radius:30px;
-  font-size:12px;letter-spacing:3px;
-}
-h1{
-  font-size:clamp(48px,10vw,105px);
-  font-weight:900;letter-spacing:-5px;
-  margin:30px 0 15px;
-}
-h1 span{
-  background:linear-gradient(90deg,#fff,#a66cff);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-.hero p{color:#999;font-size:17px;line-height:1.8}
-.btn{
-  display:inline-block;margin-top:30px;
-  padding:15px 30px;background:#a66cff;
-  color:#08080c;text-decoration:none;
-  border-radius:7px;font-weight:bold;
-}
+.logo span{color:var(--accent)}
+.right{display:flex;align-items:center;gap:6px}
+nav a{color:var(--nav);text-decoration:none;margin-left:22px;font-size:14px;padding-bottom:4px;border-bottom:2px solid transparent;transition:.2s}
+nav a:hover,nav a.active{color:var(--accent2);border-color:var(--accent)}
+#theme{margin-left:22px;background:none;border:1px solid var(--line2);color:var(--text);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px}
+#theme:hover{border-color:var(--accent)}
+.hero{min-height:78vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 20px}
+.tag{color:var(--accent2);border:1px solid var(--accent);padding:9px 18px;border-radius:30px;font-size:12px;letter-spacing:3px}
+h1{font-size:clamp(48px,10vw,105px);font-weight:900;letter-spacing:-5px;margin:30px 0 15px}
+h1 span{background:linear-gradient(90deg,var(--text),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:17px;line-height:1.8}
+.typed{color:var(--accent2);font-weight:bold;font-size:20px;min-height:32px;margin-top:14px}
+.typed::after{content:"|";animation:blink 1s steps(1) infinite;margin-left:2px}
+@keyframes blink{50%{opacity:0}}
+.btn{display:inline-block;margin-top:30px;padding:15px 30px;background:var(--accent);color:var(--on-accent);text-decoration:none;border:0;
+  border-radius:7px;font-weight:bold;font-size:15px;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(var(--particle),.4)}
+.btn.ghost{background:none;color:var(--accent2);border:1px solid var(--accent);margin-left:10px}
 section{padding:85px 10%;text-align:center}
 h2{font-size:35px;margin-bottom:20px}
-section p{color:#aaa;line-height:1.8}
-.card{
-  background:#121219;border:1px solid #292933;
-  padding:35px;border-radius:14px;
-  max-width:650px;margin:30px auto;
-}
-footer{
-  text-align:center;padding:30px;
-  color:#777;border-top:1px solid #24242c;
-}
+section p{color:var(--soft);line-height:1.8}
+.card{background:var(--card);border:1px solid var(--line2);padding:35px;border-radius:14px;max-width:650px;margin:30px auto;transition:transform .15s,border-color .3s}
+.card:hover{border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;max-width:900px;margin:30px auto}
+.grid .card{margin:0;padding:28px 20px;transform-style:preserve-3d}
+.grid .ico{font-size:34px;margin-bottom:12px}
+.grid h3{margin-bottom:8px;font-size:18px}
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:none}
+#top{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));width:46px;height:46px;border-radius:50%;border:0;
+  background:var(--accent);color:var(--on-accent);font-size:20px;cursor:pointer;opacity:0;pointer-events:none;transition:.3s;z-index:55}
+#top.show{opacity:1;pointer-events:auto}
+#toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom,0px));transform:translate(-50%,80px);background:var(--card);color:var(--text);
+  border:1px solid var(--accent);padding:12px 22px;border-radius:30px;font-size:14px;transition:.4s;z-index:80}
+#toast.show{transform:translate(-50%,0)}
+footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid var(--line)}
+.spark{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--accent);pointer-events:none;z-index:90;animation:pop .7s forwards}
+@keyframes pop{to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
 @media(max-width:600px){
- header{padding:20px;flex-direction:column;gap:18px}
+ header{padding:14px 18px;flex-direction:column;gap:12px}
  nav a{margin:0 8px}
+ #theme{margin-left:8px}
  h1{letter-spacing:-2px}
  section{padding:65px 7%}
+ .btn.ghost{margin:12px 0 0}
 }
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
+<canvas id="bg"></canvas>
+<div id="glow"></div>
+<div id="progress"></div>
+
 <header>
   <div class="logo">ITSDEV<span>ALBA.</span></div>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <div class="right">
+    <nav>
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button id="theme" aria-label="Wissel thema" title="Wissel thema">☾</button>
+  </div>
 </header>
 
 <main>
 <div class="hero" id="home">
   <div class="tag">WELCOME TO MY WORLD</div>
   <h1>ITSDEV<span>ALBA.</span></h1>
-  <p>Creativity. Ambition. Vision.<br>
-  Welcome to the official website of ITSDEVALBA.</p>
-  <a class="btn" href="#about">DISCOVER MORE ↗</a>
+  <p>Welcome to the official website of ITSDEVALBA.</p>
+  <div class="typed" id="typed"></div>
+  <div>
+    <a class="btn" href="#about">DISCOVER MORE ↗</a>
+    <a class="btn ghost" href="#contact">SAY HI</a>
+  </div>
 </div>
 
 <section id="about">
-  <h2>About Me.</h2>
-  <div class="card">
+  <h2 class="reveal">About Me.</h2>
+  <div class="card reveal">
     <p>Welcome to ITSDEVALBA. This is my official online space.
     A place for creativity, ideas, projects and everything
     that represents my vision.</p>
@@ -104,22 +123,127 @@ footer{
 </section>
 
 <section id="projects">
-  <h2>My Projects.</h2>
-  <div class="card">
-    <p>Something new is coming soon.<br>
-    Stay tuned for updates.</p>
+  <h2 class="reveal">My Projects.</h2>
+  <p class="reveal">Something new is coming soon. Stay tuned for updates.</p>
+  <div class="grid">
+    <div class="card tilt reveal"><div class="ico">🚀</div><h3>Project One</h3><p>Coming soon</p></div>
+    <div class="card tilt reveal"><div class="ico">🎨</div><h3>Project Two</h3><p>Coming soon</p></div>
+    <div class="card tilt reveal"><div class="ico">⚡</div><h3>Project Three</h3><p>Coming soon</p></div>
   </div>
 </section>
 
 <section id="contact">
-  <h2>Get In Touch.</h2>
-  <p>Want to connect or collaborate?</p>
-  <a class="btn" href="mailto:contact@example.com">CONTACT ME ↗</a>
+  <h2 class="reveal">Get In Touch.</h2>
+  <p class="reveal">Want to connect or collaborate?</p>
+  <div class="reveal">
+    <a class="btn" href="mailto:contact@example.com">CONTACT ME ↗</a>
+    <button class="btn ghost" id="copy">COPY E-MAIL</button>
+  </div>
 </section>
 </main>
 
-<footer>
-  © 2026 ITSDEVALBA. All rights reserved.
-</footer>
+<footer>© 2026 ITSDEVALBA. All rights reserved.</footer>
+
+<button id="top" aria-label="Terug naar boven">↑</button>
+<div id="toast"></div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+
+  /* Thema met opslag */
+  var tbtn=document.getElementById('theme');
+  function setTheme(t){root.setAttribute('data-theme',t);tbtn.textContent=t==='light'?'☀':'☾';}
+  var saved=null;try{saved=localStorage.getItem('theme');}catch(e){}
+  setTheme(saved==='light'?'light':'dark');
+  tbtn.onclick=function(){
+    var t=root.getAttribute('data-theme')==='light'?'dark':'light';
+    setTheme(t);try{localStorage.setItem('theme',t);}catch(e){}
+  };
+
+  /* Typemachine */
+  var words=['Creativity.','Ambition.','Vision.','Ideas.','Something new.'];
+  var el=document.getElementById('typed'),w=0,c=0,del=false;
+  function type(){
+    var cur=words[w];
+    el.textContent=cur.slice(0,c);
+    if(!del&&c<cur.length){c++;setTimeout(type,90);}
+    else if(!del){del=true;setTimeout(type,1300);}
+    else if(c>0){c--;setTimeout(type,45);}
+    else{del=false;w=(w+1)%words.length;setTimeout(type,300);}
+  }
+  type();
+
+  /* Deeltjes-achtergrond */
+  var cv=document.getElementById('bg'),ctx=cv.getContext('2d'),P=[],mx=-999,my=-999,W,H;
+  function size(){W=cv.width=innerWidth;H=cv.height=innerHeight;
+    var n=Math.min(90,Math.floor(W*H/16000));P=[];
+    for(var i=0;i<n;i++)P.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5});}
+  size();addEventListener('resize',size);
+  addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;
+    var g=document.getElementById('glow');g.style.left=mx+'px';g.style.top=my+'px';});
+  function col(){return getComputedStyle(root).getPropertyValue('--particle').trim();}
+  function draw(){
+    ctx.clearRect(0,0,W,H);var rgb=col();
+    for(var i=0;i<P.length;i++){
+      var p=P[i];p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      var dx=p.x-mx,dy=p.y-my,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){p.x+=dx/d*1.5;p.y+=dy/d*1.5;}
+      ctx.fillStyle='rgba('+rgb+',.7)';ctx.beginPath();ctx.arc(p.x,p.y,1.8,0,6.3);ctx.fill();
+      for(var j=i+1;j<P.length;j++){
+        var q=P[j],ax=p.x-q.x,ay=p.y-q.y,dd=Math.sqrt(ax*ax+ay*ay);
+        if(dd<110){ctx.strokeStyle='rgba('+rgb+','+(.25*(1-dd/110))+')';ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  /* Scroll-reveal */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(function(n,i){n.style.transitionDelay=(i%3)*.1+'s';io.observe(n);});
+
+  /* Voortgangsbalk, naar-boven-knop, actieve menu-link */
+  var bar=document.getElementById('progress'),top=document.getElementById('top');
+  var links=[].slice.call(document.querySelectorAll('nav a')),secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  function onScroll(){
+    var h=document.documentElement.scrollHeight-innerHeight,y=scrollY;
+    bar.style.width=(h>0?y/h*100:0)+'%';
+    top.classList.toggle('show',y>500);
+    var idx=0;secs.forEach(function(s,i){if(s.getBoundingClientRect().top<innerHeight*.4)idx=i;});
+    links.forEach(function(a,i){a.classList.toggle('active',i===idx);});
+  }
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  top.onclick=function(){scrollTo({top:0,behavior:'smooth'});};
+
+  /* 3D tilt op project-kaarten */
+  document.querySelectorAll('.tilt').forEach(function(c){
+    c.addEventListener('mousemove',function(e){
+      var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      c.style.transform='perspective(600px) rotateY('+x*14+'deg) rotateX('+(-y*14)+'deg) translateY(-4px)';});
+    c.addEventListener('mouseleave',function(){c.style.transform='';});
+  });
+
+  /* E-mail kopiëren + toast */
+  var toast=document.getElementById('toast');
+  function say(m){toast.textContent=m;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show');},2200);}
+  document.getElementById('copy').onclick=function(){
+    var mail='contact@example.com';
+    try{navigator.clipboard.writeText(mail).then(function(){say('E-mailadres gekopieerd ✓');},function(){say(mail);});}
+    catch(e){say(mail);}
+  };
+
+  /* Sparkles bij klikken */
+  addEventListener('click',function(e){
+    for(var i=0;i<8;i++){
+      var s=document.createElement('div'),a=i/8*6.28,r=30+Math.random()*30;
+      s.className='spark';s.style.left=e.clientX+'px';s.style.top=e.clientY+'px';
+      s.style.setProperty('--x',Math.cos(a)*r+'px');s.style.setProperty('--y',Math.sin(a)*r+'px');
+      document.body.appendChild(s);setTimeout(function(n){n.remove();}.bind(null,s),700);
+    }
+  });
+})();
+</script>
 </body>
 </html>
