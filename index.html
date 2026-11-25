@@ -87,7 +87,21 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
 .signup textarea{min-height:80px;resize:vertical}
 .signup .btn{width:100%;margin-top:4px}
 .signup .note{color:var(--muted);font-size:13px;margin-top:10px;text-align:center}
-#admin{max-width:650px;margin:50px auto 0;text-align:left}
+#admin{position:fixed;inset:0;z-index:100;background:var(--bg);color:var(--text);overflow-y:auto;text-align:left;padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(30px + env(safe-area-inset-bottom,0px))}
+#admin .wrap{max-width:720px;margin:0 auto}
+#admin .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+#admin .top h3{margin:0;font-size:24px}
+#admin .ghostb,#admin .tabs button{background:none;color:var(--text);border:1px solid var(--line2);border-radius:8px;padding:9px 14px;cursor:pointer;font:inherit;font-size:14px}
+#admin .ghostb:hover,#admin .tabs button:hover{border-color:var(--accent)}
+#admin .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+#admin .tabs button.on{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:bold}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px}
+.stat{background:var(--card);border:1px solid var(--line2);border-radius:10px;padding:14px;text-align:center}
+.stat b{display:block;font-size:28px;color:var(--accent2)}
+.stat span{color:var(--muted);font-size:12px;letter-spacing:1px}
+.conv .del{float:right;background:none;border:1px solid var(--line2);color:var(--text);border-radius:8px;padding:4px 10px;cursor:pointer;font-size:12px}
+.conv .del:hover{border-color:var(--accent)}
+#adminbtn{display:none;margin-left:18px;background:var(--accent);color:var(--on-accent);border:0;border-radius:8px;padding:8px 14px;font-weight:bold;font-size:13px;cursor:pointer}
 #admin h3{text-align:center;margin-bottom:14px}
 .row{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;background:var(--card);border:1px solid var(--line2);border-radius:10px;padding:14px 16px;margin-bottom:10px}
 .row b{color:var(--accent2);display:block;word-break:break-word}
@@ -117,6 +131,15 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
 .reply{display:flex;gap:8px}
 .reply input{flex:1;background:var(--bg);color:var(--text);border:1px solid var(--line2);border-radius:8px;padding:8px 10px;font:inherit;font-size:14px}
 .reply button{padding:8px 14px}
+#aibtn{position:fixed;right:20px;bottom:calc(76px + env(safe-area-inset-bottom,0px));height:46px;padding:0 18px;border-radius:23px;border:1px solid var(--accent);background:var(--card);color:var(--accent2);font-weight:bold;font-size:14px;cursor:pointer;z-index:55}
+#ai{position:fixed;right:20px;bottom:calc(132px + env(safe-area-inset-bottom,0px));width:min(340px,calc(100vw - 40px));max-height:65vh;display:none;flex-direction:column;background:var(--card);border:1px solid var(--accent);border-radius:14px;z-index:56;overflow:hidden;text-align:left}
+#ai.open{display:flex}
+#ai h4{padding:14px 16px;border-bottom:1px solid var(--line);font-size:15px}
+#ai h4 small{display:block;color:var(--muted);font-weight:normal;font-size:12px;margin-top:2px}
+#aimsgs{padding:12px;overflow-y:auto;flex:1;min-height:140px;max-height:42vh;display:flex;flex-direction:column;gap:8px}
+#aiform{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+#aiform input{flex:1;min-width:0;background:var(--bg);color:var(--text);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;font:inherit;font-size:14px}
+#aiform button{background:var(--accent);color:var(--on-accent);border:0;border-radius:8px;padding:0 14px;font-weight:bold;cursor:pointer}
 @media(max-width:600px){
  header{padding:14px 18px;flex-direction:column;gap:12px}
  nav a{margin:0 8px}
@@ -144,6 +167,7 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </nav>
+    <button id="adminbtn">⚙ Admin</button>
     <button id="theme" aria-label="Wissel thema" title="Wissel thema">☾</button>
   </div>
 </header>
@@ -198,17 +222,30 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
     <button class="btn" type="submit">LAAT WETEN DAT JE ME HEBT TOEGEVOEGD</button>
     <div class="note" id="snote"></div>
   </form>
-  <div id="admin" style="display:none">
-    <h3>Aanmeldingen (alleen zichtbaar voor jou)</h3>
-    <div id="list"></div>
-    <h3 style="margin-top:36px">Livechat</h3>
-    <div id="convs"></div>
-  </div>
 </section>
 </main>
 
 <footer>© 2026 ITSDEVALBA.CFX. Alle rechten voorbehouden.</footer>
 
+<div id="admin" style="display:none" role="dialog" aria-label="Admin paneel">
+  <div class="wrap">
+    <div class="top"><h3>⚙ Admin paneel</h3><button id="aclose" class="ghostb">Sluiten ✕</button></div>
+    <div class="stats">
+      <div class="stat"><b id="stS">0</b><span>AANMELDINGEN</span></div>
+      <div class="stat"><b id="stC">0</b><span>CHATS</span></div>
+      <div class="stat"><b id="stM">0</b><span>BERICHTEN</span></div>
+    </div>
+    <div class="tabs"><button data-t="signups">Aanmeldingen (<span id="tS">0</span>)</button><button data-t="chat">Livechat (<span id="tC">0</span>)</button></div>
+    <div id="list"></div>
+    <div id="convs"></div>
+  </div>
+</div>
+<button id="aibtn" aria-label="Open AI-assistent">🤖 AI</button>
+<div id="ai" role="dialog" aria-label="AI-assistent">
+  <h4>🤖 AI-assistent<small>Antwoorden komen van AI en kunnen fouten bevatten.</small></h4>
+  <div id="aimsgs"></div>
+  <form id="aiform" autocomplete="off"><input id="aitext" maxlength="500" placeholder="Stel je vraag..." required><button type="submit">➤</button></form>
+</div>
 <button id="chatbtn" aria-label="Open klantenservice">💬 Klantenservice</button>
 <div id="chat" role="dialog" aria-label="Livechat">
   <h4>Klantenservice<small>Stel je vraag, ik reageer zo snel mogelijk.</small></h4>
@@ -310,6 +347,24 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
     catch(e){say('Discord: '+tag);}
   };
 
+  /* Admin paneel */
+  var panel=document.getElementById('admin'),abtn=document.getElementById('adminbtn');
+  var stat={s:0,c:0,m:0};
+  function setStats(){['stS','tS'].forEach(function(i){document.getElementById(i).textContent=stat.s;});['stC','tC'].forEach(function(i){document.getElementById(i).textContent=stat.c;});document.getElementById('stM').textContent=stat.m;}
+  function adminTab(t){
+    document.getElementById('list').style.display=t==='signups'?'block':'none';
+    document.getElementById('convs').style.display=t==='chat'?'block':'none';
+    [].forEach.call(panel.querySelectorAll('.tabs button'),function(b){b.classList.toggle('on',b.getAttribute('data-t')===t);});
+  }
+  function openAdmin(t){panel.style.display='block';document.body.style.overflow='hidden';adminTab(t||'signups');}
+  function closeAdmin(){panel.style.display='none';document.body.style.overflow='';}
+  function showAdminBtn(){abtn.style.display='inline-block';}
+  abtn.onclick=function(){openAdmin('signups');};
+  document.getElementById('aclose').onclick=closeAdmin;
+  [].forEach.call(panel.querySelectorAll('.tabs button'),function(b){b.onclick=function(){adminTab(b.getAttribute('data-t'));};});
+  addEventListener('keydown',function(e){if(e.key==='Escape')closeAdmin();});
+  adminTab('signups');
+
   /* Aanmeldingen */
   function esc(t){return String(t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   (async function(){
@@ -331,10 +386,11 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
     };
     var owner=false;try{owner=await user.isOwner();}catch(e){}
     if(!owner)return;
-    var box=document.getElementById('admin'),list=document.getElementById('list');
-    box.style.display='block';
+    var list=document.getElementById('list');
+    showAdminBtn();
     db.collection('signups').onSnapshot(function(snap){
       var docs=snap.docs.map(function(d){return{id:d.id,v:d.data()};}).sort(function(a,b){return (b.v.at||0)-(a.v.at||0);});
+      stat.s=docs.length;setStats();
       if(!docs.length){list.innerHTML='<p class="empty">Nog geen aanmeldingen.</p>';return;}
       list.innerHTML=docs.map(function(d){
         return '<div class="row"><div><b>'+esc(d.v.name)+'</b>'+(d.v.msg?'<span>'+esc(d.v.msg)+'</span>':'')+
@@ -399,15 +455,21 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
       };
     }else{
       cbtn.textContent='💬 Inbox';
-      cbtn.onclick=function(){document.getElementById('admin').scrollIntoView({behavior:'smooth'});};
+      showAdminBtn();
+      cbtn.onclick=function(){openAdmin('chat');};
       var convs=document.getElementById('convs'),inD={},outD={},drafts={};
       function show(){
         var ae=document.activeElement,keep=ae&&ae.dataset&&ae.dataset.u?ae.dataset.u:null;
+        stat.c=Object.keys(inD).length;stat.m=0;
+        Object.keys(inD).forEach(function(k){stat.m+=msgsOf(inD[k]).length+msgsOf(outD[k]).length;});setStats();
         var ids=Object.keys(inD).sort(function(a,b){return (inD[b].at||0)-(inD[a].at||0);});
         if(!ids.length){convs.innerHTML='<p class="empty">Nog geen chats.</p>';return;}
         convs.textContent='';
         ids.forEach(function(id){
           var c=document.createElement('div');c.className='conv';
+          var dl=document.createElement('button');dl.className='del';dl.textContent='Verwijder chat';
+          dl.onclick=function(){db.collection('chatin').doc(id).delete().catch(function(){say('Verwijderen mislukt');});db.collection('chatout').doc(id).delete().catch(function(){});};
+          c.appendChild(dl);
           var h=document.createElement('b');h.textContent=inD[id].name||'Bezoeker';c.appendChild(h);
           var ms=document.createElement('div');ms.className='msgs';
           var all=msgsOf(inD[id]).map(function(m){return{t:m.t,at:m.at,me:0};}).concat(msgsOf(outD[id]).map(function(m){return{t:m.t,at:m.at,me:1};})).sort(function(a,b){return a.at-b.at;});
@@ -431,6 +493,34 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
       db.collection('chatin').onSnapshot(function(sn){inD={};sn.docs.forEach(function(d){inD[d.id]=d.data();});show();},function(){convs.innerHTML='<p class="empty">Kon chats niet laden.</p>';});
       db.collection('chatout').onSnapshot(function(sn){outD={};sn.docs.forEach(function(d){outD[d.id]=d.data();});show();},function(){});
     }
+  })();
+
+  /* AI-assistent */
+  (function(){
+    var ab=document.getElementById('aibtn'),pn=document.getElementById('ai'),box=document.getElementById('aimsgs'),
+        f=document.getElementById('aiform'),inp=document.getElementById('aitext');
+    var hist=[],busy=false,spP=null;
+    var INSTR='Je bent de AI-assistent op de website van ITSDEVALBA.CFX, een FiveM developer en creator. Antwoord in het Nederlands (of de taal van de bezoeker), kort en vriendelijk, maximaal 4 zinnen. Wat je weet: de site toont FiveM Scripts, Mods & Maps, Discord Bots en een FiveM Website Maker, en er komt binnenkort iets nieuws. Contact gaat via Discord (gebruikersnaam: itsdevalba.cfx), via het aanmeldformulier of via de livechat op de site. Je mag algemene vragen over FiveM, Lua-scripting, servers en Discord-bots beantwoorden. Verzin geen prijzen, releasedata of beloftes over projecten: verwijs daarvoor naar Discord. Doe niet alsof je de eigenaar zelf bent.';
+    ab.onclick=function(){pn.classList.toggle('open');};
+    function add(t,me){var d=document.createElement('div');d.className='m '+(me?'me':'them');d.style.whiteSpace='pre-wrap';d.textContent=t;box.appendChild(d);box.scrollTop=box.scrollHeight;return d;}
+    add('Hoi! Ik ben de AI-assistent van ITSDEVALBA.CFX. Vraag me iets over FiveM, de projecten of hoe je contact opneemt.',0);
+    function getSample(){if(!spP)spP=(window.claude&&claude.use?claude.use('sample'):Promise.resolve(null)).catch(function(){return null;});return spP;}
+    f.onsubmit=async function(e){
+      e.preventDefault();var q=inp.value.trim();if(!q||busy)return;
+      busy=true;inp.value='';add(q,1);var out=add('...',0);
+      var s=await getSample();
+      if(!s){out.textContent='De AI is hier niet beschikbaar. Voeg me toe op Discord: itsdevalba.cfx';busy=false;return;}
+      var tr=hist.slice(-8).map(function(m){return (m.r==='u'?'Bezoeker: ':'Assistent: ')+m.t;}).join('\n');
+      var prompt=INSTR+'\n\nGesprek tot nu toe:\n'+(tr||'(nog niets)')+'\n\nBezoeker: '+q+'\nAssistent:';
+      try{
+        var r=await s(prompt,{modelTier:'quick',cache:false,onText:function(x){out.textContent=x.text;box.scrollTop=box.scrollHeight;}});
+        var a=(r&&r.text)||out.textContent;out.textContent=a;
+        hist.push({r:'u',t:q},{r:'a',t:a});
+      }catch(err){
+        out.textContent=err&&err.code==='not_granted'?'Je hebt geen toestemming gegeven voor de AI. Probeer het opnieuw en klik op toestaan.':err&&err.code==='rate_limited'?'Even wachten, er zijn te veel vragen. Probeer het zo opnieuw.':'De AI kon nu niet antwoorden. Probeer het later opnieuw.';
+      }
+      busy=false;
+    };
   })();
 
   /* Sparkles bij klikken */
