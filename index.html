@@ -79,6 +79,44 @@ section p{color:var(--soft);line-height:1.8}
 footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid var(--line)}
 .spark{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--accent);pointer-events:none;z-index:90;animation:pop .7s forwards}
 @keyframes pop{to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
+
+.signup{max-width:420px;margin:26px auto 0;text-align:left}
+.signup label{display:block;color:var(--muted);font-size:12px;letter-spacing:2px;margin:0 0 6px}
+.signup input,.signup textarea{width:100%;background:var(--card);color:var(--text);border:1px solid var(--line2);border-radius:8px;padding:12px 14px;font:inherit;font-size:15px;margin-bottom:14px}
+.signup input:focus,.signup textarea:focus{outline:none;border-color:var(--accent)}
+.signup textarea{min-height:80px;resize:vertical}
+.signup .btn{width:100%;margin-top:4px}
+.signup .note{color:var(--muted);font-size:13px;margin-top:10px;text-align:center}
+#admin{max-width:650px;margin:50px auto 0;text-align:left}
+#admin h3{text-align:center;margin-bottom:14px}
+.row{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;background:var(--card);border:1px solid var(--line2);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.row b{color:var(--accent2);display:block;word-break:break-word}
+.row span{color:var(--soft);font-size:14px;display:block;margin-top:4px;word-break:break-word}
+.row small{color:var(--muted);font-size:12px;display:block;margin-top:4px}
+.row button{background:none;border:1px solid var(--line2);color:var(--text);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;flex:none}
+.row button:hover{border-color:var(--accent)}
+.empty{text-align:center;color:var(--muted)}
+
+#chatbtn{position:fixed;left:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));height:46px;padding:0 18px;border-radius:23px;border:0;background:var(--accent);color:var(--on-accent);font-weight:bold;font-size:14px;cursor:pointer;z-index:55;display:none}
+#chat{position:fixed;left:20px;bottom:calc(76px + env(safe-area-inset-bottom,0px));width:min(340px,calc(100vw - 40px));max-height:70vh;display:none;flex-direction:column;background:var(--card);border:1px solid var(--accent);border-radius:14px;z-index:56;overflow:hidden;text-align:left}
+#chat.open{display:flex}
+#chat h4{padding:14px 16px;border-bottom:1px solid var(--line);font-size:15px}
+#chat h4 small{display:block;color:var(--muted);font-weight:normal;font-size:12px;margin-top:2px}
+#cmsgs{padding:12px;overflow-y:auto;flex:1;min-height:140px;max-height:42vh;display:flex;flex-direction:column;gap:8px}
+.m{max-width:85%;padding:8px 12px;border-radius:12px;font-size:14px;line-height:1.4;word-break:break-word}
+.m.me{align-self:flex-end;background:var(--accent);color:var(--on-accent)}
+.m.them{align-self:flex-start;background:var(--bg);border:1px solid var(--line2)}
+#chat form{display:flex;flex-direction:column;gap:8px;padding:10px;border-top:1px solid var(--line)}
+#chat input{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;font:inherit;font-size:14px}
+#chat .sendrow{display:flex;gap:8px}
+#chat .sendrow button,.reply button{background:var(--accent);color:var(--on-accent);border:0;border-radius:8px;padding:0 14px;font-weight:bold;cursor:pointer}
+.conv{background:var(--card);border:1px solid var(--line2);border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.conv>b{color:var(--accent2)}
+.conv .m{font-size:13px}
+.conv .msgs{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.reply{display:flex;gap:8px}
+.reply input{flex:1;background:var(--bg);color:var(--text);border:1px solid var(--line2);border-radius:8px;padding:8px 10px;font:inherit;font-size:14px}
+.reply button{padding:8px 14px}
 @media(max-width:600px){
  header{padding:14px 18px;flex-direction:column;gap:12px}
  nav a{margin:0 8px}
@@ -152,11 +190,34 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
       <span class="btn" style="margin:0;padding:10px 18px;font-size:13px">KOPIEER</span>
     </button>
   </div>
+  <form class="signup reveal" id="signup" autocomplete="off" style="display:none">
+    <label for="sname">JE DISCORD-NAAM</label>
+    <input id="sname" maxlength="40" required placeholder="bijv. naam of naam#0000">
+    <label for="smsg">BERICHT (OPTIONEEL)</label>
+    <textarea id="smsg" maxlength="300" placeholder="Waar wil je over praten?"></textarea>
+    <button class="btn" type="submit">LAAT WETEN DAT JE ME HEBT TOEGEVOEGD</button>
+    <div class="note" id="snote"></div>
+  </form>
+  <div id="admin" style="display:none">
+    <h3>Aanmeldingen (alleen zichtbaar voor jou)</h3>
+    <div id="list"></div>
+    <h3 style="margin-top:36px">Livechat</h3>
+    <div id="convs"></div>
+  </div>
 </section>
 </main>
 
 <footer>© 2026 ITSDEVALBA.CFX. Alle rechten voorbehouden.</footer>
 
+<button id="chatbtn" aria-label="Open klantenservice">💬 Klantenservice</button>
+<div id="chat" role="dialog" aria-label="Livechat">
+  <h4>Klantenservice<small>Stel je vraag, ik reageer zo snel mogelijk.</small></h4>
+  <div id="cmsgs"></div>
+  <form id="cform" autocomplete="off">
+    <input id="cname" maxlength="30" placeholder="Je naam" required>
+    <div class="sendrow"><input id="ctext" maxlength="500" placeholder="Typ een bericht..." required><button type="submit">➤</button></div>
+  </form>
+</div>
 <button id="top" aria-label="Terug naar boven">↑</button>
 <div id="toast"></div>
 
@@ -248,6 +309,129 @@ footer{text-align:center;padding:30px;color:var(--muted);border-top:1px solid va
     try{navigator.clipboard.writeText(tag).then(function(){say('Discord gekopieerd: '+tag+' ✓');},function(){say('Discord: '+tag);});}
     catch(e){say('Discord: '+tag);}
   };
+
+  /* Aanmeldingen */
+  function esc(t){return String(t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  (async function(){
+    if(!window.claude||!claude.use)return;
+    var db=null,user=null;
+    try{db=await claude.use('db');user=await claude.use('user');}catch(e){}
+    if(!db||!user)return;
+    var form=document.getElementById('signup'),note=document.getElementById('snote');
+    form.style.display='block';
+    var uid=await user.id();
+    form.onsubmit=async function(e){
+      e.preventDefault();
+      var n=document.getElementById('sname').value.trim(),m=document.getElementById('smsg').value.trim();
+      if(!n)return;
+      try{
+        await db.collection('signups').doc(uid).set({name:n,msg:m,at:Date.now()});
+        form.reset();note.textContent='Bedankt! Je aanmelding is verstuurd ✓';say('Aanmelding verstuurd ✓');
+      }catch(err){note.textContent='Versturen is niet gelukt. Probeer het later opnieuw.';}
+    };
+    var owner=false;try{owner=await user.isOwner();}catch(e){}
+    if(!owner)return;
+    var box=document.getElementById('admin'),list=document.getElementById('list');
+    box.style.display='block';
+    db.collection('signups').onSnapshot(function(snap){
+      var docs=snap.docs.map(function(d){return{id:d.id,v:d.data()};}).sort(function(a,b){return (b.v.at||0)-(a.v.at||0);});
+      if(!docs.length){list.innerHTML='<p class="empty">Nog geen aanmeldingen.</p>';return;}
+      list.innerHTML=docs.map(function(d){
+        return '<div class="row"><div><b>'+esc(d.v.name)+'</b>'+(d.v.msg?'<span>'+esc(d.v.msg)+'</span>':'')+
+          '<small>'+new Date(d.v.at||0).toLocaleString('nl-NL')+'</small></div><button data-id="'+esc(d.id)+'">Verwijder</button></div>';
+      }).join('');
+      [].forEach.call(list.querySelectorAll('button'),function(b){
+        b.onclick=function(){db.collection('signups').doc(b.getAttribute('data-id')).delete().catch(function(){say('Verwijderen mislukt');});};
+      });
+    },function(){list.innerHTML='<p class="empty">Kon aanmeldingen niet laden.</p>';});
+  })();
+
+  /* Livechat */
+  (async function(){
+    var cbtn=document.getElementById('chatbtn'),cbox=document.getElementById('chat');
+    cbtn.style.display='block';
+    cbtn.onclick=function(){cbox.classList.toggle('open');};
+    document.getElementById('cmsgs').textContent='Laden...';
+    function nochat(){
+      document.getElementById('cform').style.display='none';
+      var c=document.getElementById('cmsgs');c.textContent='';
+      var p=document.createElement('div');p.className='m them';
+      p.textContent='De livechat werkt hier alleen voor ingelogde gebruikers. Voeg me toe op Discord: itsdevalba.cfx';
+      c.appendChild(p);
+      var b=document.createElement('button');b.className='btn';b.style.cssText='margin:6px 0 0;padding:10px 14px;font-size:13px';
+      b.textContent='KOPIEER DISCORD';b.onclick=function(){document.getElementById('discord').click();};
+      c.appendChild(b);
+    }
+    if(!window.claude||!claude.use){nochat();return;}
+    var db=null,user=null;
+    try{db=await claude.use('db');user=await claude.use('user');}catch(e){}
+    if(!db||!user){nochat();return;}
+    var uid=await user.id(),owner=false;try{owner=await user.isOwner();}catch(e){}
+    function msgsOf(d){return d&&Array.isArray(d.msgs)?d.msgs:[];}
+    function getData(snap){try{return snap&&snap.data?snap.data():null;}catch(e){return null;}}
+    function bubble(m,mine){var d=document.createElement('div');d.className='m '+(mine?'me':'them');d.textContent=m.t;return d;}
+
+    if(!owner){
+      var btn=document.getElementById('chatbtn'),box=document.getElementById('chat'),cm=document.getElementById('cmsgs'),
+          form=document.getElementById('cform'),nm=document.getElementById('cname'),tx=document.getElementById('ctext');
+      btn.style.display='block';
+      btn.onclick=function(){box.classList.toggle('open');};
+      var mine=[],theirs=[],myname='';
+      function render(){
+        var all=mine.map(function(m){return{t:m.t,at:m.at,me:1};}).concat(theirs.map(function(m){return{t:m.t,at:m.at,me:0};}))
+          .sort(function(a,b){return a.at-b.at;});
+        cm.textContent='';
+        if(!all.length){var p=document.createElement('div');p.className='m them';p.textContent='Hoi! Waar kan ik je mee helpen?';cm.appendChild(p);}
+        all.forEach(function(m){cm.appendChild(bubble(m,m.me));});
+        cm.scrollTop=cm.scrollHeight;
+        if(myname){nm.value=myname;nm.style.display='none';}
+      }
+      render();
+      db.collection('chatin').doc(uid).onSnapshot(function(sn){var d=getData(sn);mine=msgsOf(d);if(d&&d.name)myname=d.name;render();},function(){});
+      db.collection('chatout').doc(uid).onSnapshot(function(sn){theirs=msgsOf(getData(sn));render();},function(){});
+      form.onsubmit=async function(e){
+        e.preventDefault();
+        var t=tx.value.trim(),n=(myname||nm.value.trim());if(!t||!n)return;
+        var next=mine.concat([{t:t,at:Date.now()}]).slice(-100);
+        tx.value='';
+        try{await db.collection('chatin').doc(uid).set({name:n,msgs:next,at:Date.now()});}
+        catch(err){tx.value=t;say('Versturen mislukt');}
+      };
+    }else{
+      cbtn.textContent='💬 Inbox';
+      cbtn.onclick=function(){document.getElementById('admin').scrollIntoView({behavior:'smooth'});};
+      var convs=document.getElementById('convs'),inD={},outD={},drafts={};
+      function show(){
+        var ae=document.activeElement,keep=ae&&ae.dataset&&ae.dataset.u?ae.dataset.u:null;
+        var ids=Object.keys(inD).sort(function(a,b){return (inD[b].at||0)-(inD[a].at||0);});
+        if(!ids.length){convs.innerHTML='<p class="empty">Nog geen chats.</p>';return;}
+        convs.textContent='';
+        ids.forEach(function(id){
+          var c=document.createElement('div');c.className='conv';
+          var h=document.createElement('b');h.textContent=inD[id].name||'Bezoeker';c.appendChild(h);
+          var ms=document.createElement('div');ms.className='msgs';
+          var all=msgsOf(inD[id]).map(function(m){return{t:m.t,at:m.at,me:0};}).concat(msgsOf(outD[id]).map(function(m){return{t:m.t,at:m.at,me:1};})).sort(function(a,b){return a.at-b.at;});
+          all.forEach(function(m){ms.appendChild(bubble(m,m.me));});
+          c.appendChild(ms);
+          var f=document.createElement('form');f.className='reply';
+          var i=document.createElement('input');i.placeholder='Antwoord...';i.dataset.u=id;i.value=drafts[id]||'';
+          i.oninput=function(){drafts[id]=i.value;};
+          var b=document.createElement('button');b.type='submit';b.textContent='Stuur';
+          f.appendChild(i);f.appendChild(b);
+          f.onsubmit=function(e){
+            e.preventDefault();var t=i.value.trim();if(!t)return;
+            var next=msgsOf(outD[id]).concat([{t:t,at:Date.now()}]).slice(-100);
+            drafts[id]='';i.value='';
+            db.collection('chatout').doc(id).set({msgs:next,at:Date.now()}).catch(function(){say('Versturen mislukt');});
+          };
+          c.appendChild(f);convs.appendChild(c);
+          if(keep===id)i.focus();
+        });
+      }
+      db.collection('chatin').onSnapshot(function(sn){inD={};sn.docs.forEach(function(d){inD[d.id]=d.data();});show();},function(){convs.innerHTML='<p class="empty">Kon chats niet laden.</p>';});
+      db.collection('chatout').onSnapshot(function(sn){outD={};sn.docs.forEach(function(d){outD[d.id]=d.data();});show();},function(){});
+    }
+  })();
 
   /* Sparkles bij klikken */
   addEventListener('click',function(e){
